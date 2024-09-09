@@ -1,29 +1,27 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-const UseFetchDetails = (endpoint) => {
-    const [data , setdata] = useState()
-    const [loading , setloading] = useState(false)
- 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const fetchdata = async()=>{
-     setloading(false)
-     const response = await axios.get(endpoint)
-     setdata(response.data)
-     setloading(true)
+/* eslint-disable react-hooks/exhaustive-deps */
+import axios from "axios"
+import { useEffect, useState } from "react"
 
+const useFetchDetails = (endpoint)=>{
+    const [data,setData] = useState()
+    const [loading,setLoading] = useState(false)
 
+    const fetchData = async()=>{
+        try {
+            setLoading(true)
+            const response = await axios.get(endpoint)
+            setLoading(false)
+            setData(response.data)
+        } catch (error) {
+            console.log('error',error)
+       }
     }
 
     useEffect(()=>{
-        fetchdata()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        fetchData()
     },[endpoint])
-  return (
 
-    
-    {data,loading}
-  )
+    return { data , loading}
 }
 
-export default UseFetchDetails
+export default useFetchDetails
